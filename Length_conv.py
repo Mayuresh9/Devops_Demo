@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 @app.route("/", methods=["POST","GET"])
 def Lenth_calculator():
-    print("in Function")
     val=0.00;
     old_val=0.00
     
