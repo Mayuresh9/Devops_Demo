@@ -3,4 +3,4 @@ WORKDIR /code
 ADD . /code
 RUN pip install -r requirements.txt
 EXPOSE 5000
-CMD ["python", "Test.py"]
+CMD ["python", "Length_conv.py"]
