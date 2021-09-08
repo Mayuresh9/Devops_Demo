@@ -81,4 +81,4 @@ def Lenth_calculator():
     return render_template("index.html",content=val,num_enter=old_val)
 
 if __name__=="__main__":
-    app.run(debug = True)
+    app.run(host = "0.0.0.0", port = 80, debug = True)
