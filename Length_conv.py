@@ -5,78 +5,91 @@ app = Flask(__name__)
 
 
 
+def conversion(from_Unit,to_Unit,value):
+    if(from_Unit=="meters"):
+    
+        if(to_Unit=="meters"):
+            val=value
+                
+        elif (to_Unit=="kilometers"):
+            val = value/1000
+                
+        elif(to_Unit=="miles"):
+            val = value*0.000621371
+               
+        elif(to_Unit=="feet"):
+            val = value*3.28084
+            
+                
+    elif(from_Unit=="kilometers"):
+            
+        if(to_Unit=="meters"):
+            val=value*1000
+                
+        elif (to_Unit=="kilometers"):
+            val = value
+               
+        elif(to_Unit=="miles"):
+            val = value*0.621371
+                
+        elif(to_Unit=="feet"):
+            val =value*3280.84
+                
+                
+    elif(from_Unit=="miles"):
+            
+        if(to_Unit=="meters"):
+            val=value*1609.34
+                
+        elif (to_Unit=="kilometers"):
+            val = value*1.60934
+                
+        elif(to_Unit=="miles"):
+            val = value
+                
+        elif(to_Unit=="feet"):
+            val =value*5280
+                
+                
+    elif(from_Unit=="feet"):
+            
+        if(to_Unit=="meters"):
+            val=value*0.3048
+                
+        elif (to_Unit=="kilometers"):
+            val = value*0.0003048
+                
+        elif(to_Unit=="miles"):
+            val = value/5280
+                
+        elif(to_Unit=="feet"):
+            val = value
+                
+    else:
+        pass
+    
+    return val
+
+def check_valid_input(value):
+    if(value < 0):
+        return True
+    else:
+        return False
+    
+
+
 @app.route("/", methods=["POST","GET"])
 def Lenth_calculator():
     val=0.00;
     old_val=0.00
-    
-    
+
     if(request.method=="POST"):
         old_val = float(request.form["fromValue"])
-        if(request.form["fromUnit"]=="meters"):
-            
-            if(request.form["toUnit"]=="meters"):
-                val=float(request.form["fromValue"])
-                
-            elif (request.form["toUnit"]=="kilometers"):
-                val = float((request.form["fromValue"]))/1000
-                
-            elif(request.form["toUnit"]=="miles"):
-                val = float((request.form["fromValue"]))*0.000621371
-               
-            elif(request.form["toUnit"]=="feet"):
-                val =float((request.form["fromValue"]))*3.28084
-               
-               # old_val = float(request.form["fromValue"])
-            
-            
-                
-        elif(request.form["fromUnit"]=="kilometers"):
-            
-            if(request.form["toUnit"]=="meters"):
-                val=float(request.form["fromValue"])*1000
-                
-            elif (request.form["toUnit"]=="kilometers"):
-                val = float((request.form["fromValue"]))
-               
-            elif(request.form["toUnit"]=="miles"):
-                val = float((request.form["fromValue"]))*0.621371
-                
-            elif(request.form["toUnit"]=="feet"):
-                val =float((request.form["fromValue"]))*3280.84
-                
-                
-        elif(request.form["fromUnit"]=="miles"):
-            
-            if(request.form["toUnit"]=="meters"):
-                val=float(request.form["fromValue"])*1609.34
-                
-            elif (request.form["toUnit"]=="kilometers"):
-                val = float((request.form["fromValue"]))*1.60934
-                
-            elif(request.form["toUnit"]=="miles"):
-                val = float((request.form["fromValue"]))
-                
-            elif(request.form["toUnit"]=="feet"):
-                val =float((request.form["fromValue"]))*5280
-                
-                
-        elif(request.form["fromUnit"]=="feet"):
-            
-            if(request.form["toUnit"]=="meters"):
-                val=float(request.form["fromValue"])*0.3048
-                
-            elif (request.form["toUnit"]=="kilometers"):
-                val = float((request.form["fromValue"]))*0.0003048
-                
-            elif(request.form["toUnit"]=="miles"):
-                val = float((request.form["fromValue"]))/5280
-                
-            elif(request.form["toUnit"]=="feet"):
-                val =float((request.form["fromValue"]))
-                
+        if(check_valid_input(float(request.form["fromValue"]))):
+            return render_template("index.html",content="Invalid_Input",num_enter=old_val)
         else:
-            pass
+            val=conversion(request.form["fromUnit"],request.form["toUnit"],float(request.form["fromValue"]))
+            val = round(val,4)
     
     return render_template("index.html",content=val,num_enter=old_val)
 
